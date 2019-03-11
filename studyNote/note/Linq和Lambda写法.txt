@@ -1,0 +1,33 @@
+string path = System.Configuration.ConfigurationManager.AppSettings["FileServer"];
+            List<ClassResource> query;
+            using (var db = new fz_resourceEntities())
+            {
+//LinqÐ´·¨
+                query = (from order in db.r_files
+                         join d in db.r_resource on order.Id equals d.FileID
+                         where d.ResourceCreaterID == UserID && d.SubjectID == SubjectID && d.Catalog == UnitID                         
+                         select new ClassResource
+                         {
+                             FileID = d.FileID,
+                             ResourceName = order.FileName,
+                             ResourceUrl = order.FilePath,
+                             FileExtension = order.FileExtension
+                         }).ToList();
+                foreach (ClassResource cr in query)
+                {
+                    cr.ResourceUrl = path + "KingsunFiles\\SmartClassFile\\" + Bll.SyUserBll.GetAccount(UserID) + "\\" + cr.FileID + "." + cr.FileExtension;
+                }
+//LambdaÐ´·¨
+                var bb = db.r_resource.Where(w => w.ResourceCreaterID == UserID && w.SubjectID == SubjectID && w.Catalog == UnitID).Select(s => new ClassResource
+                {
+                    FileID = s.FileID,
+                    ResourceName = s.r_files.FileName,
+                    ResourceUrl = s.r_files.FilePath,
+                    FileExtension = s.r_files.FileExtension
+                }).ToList();
+                foreach (var cr in bb)
+                {
+                    cr.ResourceUrl = path + "KingsunFiles\\SmartClassFile\\" + Bll.SyUserBll.GetAccount(UserID) + "\\" + cr.FileID + "." + cr.FileExtension;
+                }
+                
+            }

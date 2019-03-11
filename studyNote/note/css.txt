@@ -1,0 +1,96 @@
+
+div{
+    padding: 10px;
+    background: rgba(255,0,0,0.2);
+margin: 10px;
+}
+/*子类选择器*/
+.a .\=b .c {
+    border-top-width: 2px;
+}
+
+.a + div{ /*相邻选择器，选择相邻下面的一个div*/
+    background: rgba(0,0,0,.3);
+}
+.a ~div{ /*通用相邻选择器 选择下面所有div*/
+    background: rgba(0,255,0,.3);
+}
+
+/*伪类选择器*/
+a:link{
+    color: aqua;
+}
+a:visited{
+    color: red;
+}
+
+button:hover,a:hover{
+    background: green;
+}
+
+button:active{
+    background: #333;
+    color: aliceblue;
+}
+
+input:focus{
+    outline : none;
+    background: #aaa;
+}
+/*伪元素选择器*/
+p:first-letter{
+    font-size: 50px;
+}
+
+.help:after{
+    content:"[?]";
+    color: blue;
+}
+
+.help:before{
+    content: "[*]";
+    color: red;
+}
+
+div p:first-child{
+    color: red;
+}
+div p:last-child{
+    color: green;
+}
+div p:nth-child(2){
+    color: blue;
+}
+权重：style 属性（内联） > ID 选择器 > 类选择器 / 属性选择器 / 伪类选择器 > 元素选择器
+
+
+字体
+p{
+    font-family: serif;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+a{
+    text-decoration:none;
+    background: gray;
+    padding: 10px;
+}
+
+
+.block{
+    background: gray;
+    display: block;
+    width: 100px;
+}
+
+.inline{
+    display: inline;
+}
+.inline-block{
+    display: inline-block;
+}
+display: block; 块儿级元素，即使设置了width宽度,也要独占一行整宽
+display: inline; 行内元素，内嵌行内文字，边缘padding只能变化左右宽度，上下高度不变化
+display: inline-block; 行内块儿元素，内嵌行内块儿文字，边缘padding可以变化上下左右宽高度
+display: none; 隐藏块元素

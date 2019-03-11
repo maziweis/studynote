@@ -1,0 +1,29 @@
+http://www.cnblogs.com/forcertain/archive/2012/11/29/2795139.html
+https://my.oschina.net/leejun2005/blog/98744
+
+Fidder web Debug 使用post接口
+Accept:application/xml
+Content-Type:application/json
+
+Content-Type: application/x-www-form-urlencoded
+userId=123&userType=213&OperId=34&content=fdsfs
+或者
+Content-Type: application/json; charset=utf-8 
+数组
+[{
+"teamID":2,
+"showPID":3,
+"showID":5
+},
+{
+"teamID":2,
+"showPID":3,
+"showID":5
+}]
+对象
+{
+"teamID":2,
+"showPID":3,
+"showID":5
+}
+Filters 过滤请求

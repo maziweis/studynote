@@ -1,0 +1,67 @@
+
+Assembly assemly = Assembly.Load("Ruanmou.DB.SqlServer");
+
+Type testType = assemly.GetType("Ruanmou.DB.SqlServer.ReflectionTest");
+object oTest1 = Activator.CreateInstance(testType);
+object oTest2 = Activator.CreateInstance(testType, new object[] { });
+object oTest3 = Activator.CreateInstance(testType, new object[] { 895 });
+object oTest4 = Activator.CreateInstance(testType, new object[] { "桃树" }); 创建带参构造函数
+
+Type genericType = assemly.GetType("Ruanmou.DB.SqlServer.GenericClass`3");
+Type genericNewType = genericType.MakeGenericType(typeof(int), typeof(string), typeof(Program)); 先指定泛型类型
+object oGeneric = Activator.CreateInstance(genericNewType);  实例化泛型类
+
+Type singletonType = assemly.GetType("Ruanmou.DB.SqlServer.Singleton");
+//Singleton singleton = new Singleton();
+object oSingleton1 = Activator.CreateInstance(singletonType, true);  破坏单例
+object oSingleton2 = Activator.CreateInstance(singletonType, true);
+object oSingleton3 = Activator.CreateInstance(singletonType, true);	
+
+Assembly assemly = Assembly.Load("Ruanmou.DB.SqlServer");
+Type testType = assemly.GetType("Ruanmou.DB.SqlServer.ReflectionTest");
+object oTest = Activator.CreateInstance(testType);
+{
+	MethodInfo method = testType.GetMethod("Show1");//以前写的具体方法，换成字符串
+	method.Invoke(oTest, null);
+}
+{
+	MethodInfo method = testType.GetMethod("Show2");//带参数
+	method.Invoke(oTest, new object[] { 1332 });
+}
+{
+	MethodInfo method = testType.GetMethod("Show5");//静态
+	method.Invoke(oTest, new object[] { "修罗" });
+	method.Invoke(null, new object[] { "修罗" });
+}
+{
+	MethodInfo method = testType.GetMethod("Show3", new Type[] { });//重载方法
+	method.Invoke(oTest, new object[] { });
+}
+{
+	MethodInfo method = testType.GetMethod("Show3", new Type[] { typeof(int) });//重载方法
+	method.Invoke(oTest, new object[] { 1406 });
+}
+{
+	MethodInfo method = testType.GetMethod("Show3", new Type[] { typeof(string) });//重载方法
+	method.Invoke(oTest, new object[] { "晴空" });
+}
+{
+	MethodInfo method = testType.GetMethod("Show3", new Type[] { typeof(int), typeof(string) });//重载方法
+	method.Invoke(oTest, new object[] { 1214, "小康" });
+}
+{
+	MethodInfo method = testType.GetMethod("Show3", new Type[] { typeof(string), typeof(int) });//重载方法
+	method.Invoke(oTest, new object[] { "一个人的孤单", 1284 });
+}
+{
+	MethodInfo method = testType.GetMethod("Show4", BindingFlags.Instance | BindingFlags.NonPublic);//私有方法
+	method.Invoke(oTest, new object[] { "若然" });
+}
+{
+	Type genericType = assemly.GetType("Ruanmou.DB.SqlServer.GenericMethod");
+	object oGeneric = Activator.CreateInstance(genericType);
+	MethodInfo method = genericType.GetMethod("Show");
+	//MethodInfo method = genericType.GetMethod("Show`3");
+	MethodInfo methodNew = method.MakeGenericMethod(typeof(int), typeof(string), typeof(int));  //泛型方法
+	methodNew.Invoke(oGeneric, new object[] { 1328, "HEYHO", 1328 });
+}

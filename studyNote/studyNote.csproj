@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CCD707B0-FE24-4153-9EFB-8F391EE75DF0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>studyNote</RootNamespace>
+    <AssemblyName>studyNote</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="note\24net\0413.Net就业班第1天.txt" />
+    <Content Include="note\24net\0413.Net就业班第2天.txt" />
+    <Content Include="note\24net\0413.Net就业班第3天.txt" />
+    <Content Include="note\24net\抽象类特点.txt" />
+    <Content Include="note\24net\接口特点.txt" />
+    <Content Include="note\C#.txt" />
+    <Content Include="note\C#解压rar.txt" />
+    <Content Include="note\CefSharp.txt" />
+    <Content Include="note\css.txt" />
+    <Content Include="note\emmet.txt" />
+    <Content Include="note\ES6.txt" />
+    <Content Include="note\Fiddler web Debug使用.txt" />
+    <Content Include="note\Git.txt" />
+    <Content Include="note\html培训.txt" />
+    <Content Include="note\IIS.txt" />
+    <Content Include="note\jQuery.txt" />
+    <Content Include="note\JS笔记.txt" />
+    <Content Include="note\Linq和Lambda写法.txt" />
+    <Content Include="note\Oracle笔记.txt" />
+    <Content Include="note\ppt培训.txt" />
+    <Content Include="note\Reflection.txt" />
+    <Content Include="note\SQL.txt" />
+    <Content Include="note\SVN笔记.txt" />
+    <Content Include="note\swagger.txt" />
+    <Content Include="note\TypeScript.txt" />
+    <Content Include="note\Vss.txt" />
+    <Content Include="note\Vue.txt" />
+    <Content Include="note\WebApi笔记.txt" />
+    <Content Include="note\WebBrower.txt" />
+    <Content Include="note\Winform.txt" />
+    <Content Include="note\响应式布局.txt" />
+    <Content Include="note\正则表达式.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,192 @@
+
+后台调用webapi接口----------------------------------
+
+GET方式-------------
+ HttpClient myHttpClient = new HttpClient();
+            myHttpClient.BaseAddress = new Uri(webapi_url);
+            HttpResponseMessage response = myHttpClient.GetAsync("/api/GetTextbookDict?Stage=" + submitData.Stage + "&SubjectID=" + submitData.SubjectID + "&GradeID=" + submitData.GradeID + "&Booklet=" + submitData.BookLet + "&EditionID=" + submitData.EditionID).Result;
+            string json = null;
+            if (response.IsSuccessStatusCode)
+            {
+                json = response.Content.ReadAsStringAsync().Result;
+            }
+
+POST方式-------------
+ private SyncResponse SaveOperationRecord(SyncRequest request)
+        {
+            UserOperData submitData = JsonHelper.DecodeJson<UserOperData>(request.Data);
+            HttpClient myHttpClient = new HttpClient();
+            myHttpClient.BaseAddress = new Uri(webapi_url);
+
+            string json = JsonHelper.DeepEncodeJson(submitData);
+            var content = new StringContent(json, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = myHttpClient.PostAsync("/api/ClrLogMonitorWeb_Add", content).Result;
+
+            //BigDataServiceClient bigDataWebService = new BigDataServiceClient();
+            //bigDataWebService.ClrLogMonitorWeb_Add(submitData.UserID, submitData.UserType, submitData.OperID, submitData.Content);
+            return SyncResponse.GetResponse(request, response.IsSuccessStatusCode);
+        }
+
+
+MVC编写Webapi接口
+查询方式
+string path = System.Configuration.ConfigurationManager.AppSettings["FileServer"];
+            List<ClassResource> query;
+            using (var db = new fz_resourceEntities())
+            {
+//Linq写法
+                query = (from order in db.r_files    //查询主表
+                         join d in db.r_resource on order.Id equals d.FileID  //查询附表
+                         where d.ResourceCreaterID == UserID && d.SubjectID == SubjectID && d.Catalog == UnitID                         
+                         select new ClassResource
+                         {
+                             FileID = d.FileID,
+                             ResourceName = order.FileName,
+                             ResourceUrl = order.FilePath,
+                             FileExtension = order.FileExtension
+                         }).ToList();
+                foreach (ClassResource cr in query)
+                {
+                    cr.ResourceUrl = path + "KingsunFiles\\SmartClassFile\\" + Bll.SyUserBll.GetAccount(UserID) + "\\" + cr.FileID + "." + cr.FileExtension;
+                }
+//Lambda写法
+                var bb = db.r_resource.Where(w => w.ResourceCreaterID == UserID && w.SubjectID == SubjectID && w.Catalog == UnitID).Select(s => new ClassResource
+                {
+                    FileID = s.FileID,
+                    ResourceName = s.r_files.FileName,
+                    ResourceUrl = s.r_files.FilePath,
+                    FileExtension = s.r_files.FileExtension
+                }).ToList();
+                foreach (var cr in bb)
+                {
+                    cr.ResourceUrl = path + "KingsunFiles\\SmartClassFile\\" + Bll.SyUserBll.GetAccount(UserID) + "\\" + cr.FileID + "." + cr.FileExtension;
+                }
+                
+            }
+
+上传文件
+if (!Directory.Exists(PrePath))
+                    {
+                        Directory.CreateDirectory(PrePath);
+                    }
+                    Extension = Path.GetExtension(file.FileName);
+                    //////////////重新命名文件名///////////////
+                    PrePath = PrePath + "\\" + id + Extension;
+                    try
+                    {
+                        if (File.Exists(PrePath))
+                        {
+                            File.Delete(PrePath);
+                        }
+                        file.SaveAs(PrePath);
+           WebClient client = new WebClient();
+           string SchoolUrl = System.Configuration.ConfigurationManager.AppSettings["SchoolUrl"].ToString();
+           byte[] bt = client.UploadFile(SchoolUrl + "api/UploadAvatar/" + id, null, PrePath);
+
+
+
+获取GUID
+string strGUID = System.Guid.NewGuid().ToString();
+
+获取上传文件流
+ HttpFileCollection files = HttpContext.Current.Request.Files;
+HttpPostedFile file = files[files.AllKeys[0]];
+ 
+
+插入数据到数据库（防止SQL注入）
+ public void Post([FromBody]Operator operatorInfo)
+        {
+            try
+            {
+                using (var db = new fz_bigdataEntities())
+                {
+                    //data_room_log_operation roomlog = new data_room_log_operation();
+                    //roomlog.Id = Guid.NewGuid().ToString();
+                    //roomlog.CreateUserId = operatorInfo.userId;
+                    //roomlog.CreateUserType = operatorInfo.userType;
+                    //roomlog.OperId = operatorInfo.OperId;
+                    //roomlog.OperContent = operatorInfo.content;
+                    //roomlog.CreateTime = DateTime.Now;
+                    SqlParameter[] param = new SqlParameter[6];
+                    param[0] = new SqlParameter("@Id", Guid.NewGuid().ToString());
+                    param[1] = new SqlParameter("@CreateUserId", operatorInfo.userId);
+                    param[2] = new SqlParameter("@CreateUserType", operatorInfo.userType);
+                    param[3] = new SqlParameter("@OperId", operatorInfo.OperId);
+                    param[4] = new SqlParameter("@OperContent", operatorInfo.content);
+                    param[5] = new SqlParameter("@CreateTime", SqlDbType.DateTime);
+                    param[5].Value = DateTime.Now;
+                    db.Database.ExecuteSqlCommand("insert into data_room_log_operation(Id,CreateUserId,CreateUserType,OperId,OperContent,CreateTime) values(@Id,@CreateUserId,@CreateUserType,@OperId,@OperContent,@CreateTime)",param);
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(string.Format("{0}", DateTime.Now), e);
+            }
+        }
+
+请求头
+public class getUserDataController : ApiController
+    {
+        public void get(string id= "RcehSbLCTWEYsaokpUMfpxTVJnrPw+lyk7bL9Y1G4xI=")
+        {
+            string oms = System.Configuration.ConfigurationManager.AppSettings["Oms"];
+            HttpClient myHttpClient = new HttpClient();
+            myHttpClient.DefaultRequestHeaders.Add("token", id);
+            myHttpClient.BaseAddress = new Uri(oms);//webapi_url                              
+            HttpResponseMessage response = myHttpClient.GetAsync("SunnyTask/Api/Platform/GetUserInfo").Result;
+            string resultmeta = response.Content.ReadAsStringAsync().Result;
+        }
+    }
+public LocalFunMsg get(string UserName="lm2962", string Password="123456", string LoginIP = "192.168.3.190", string AppID= "TKS0213",  string Platform= "api")
+        {
+            try
+            {
+                string oms = System.Configuration.ConfigurationManager.AppSettings["Oms"];
+                //HttpClient myHttpClient = new HttpClient();
+                ////myHttpClient.DefaultRequestHeaders.Add("token", id);
+                //myHttpClient.BaseAddress = new Uri(oms);//webapi_url           
+                //string data = "?UserName=" + UserName + "&Password=" + Password + "&AppID=" + AppID + "&LoginIP=" + LoginIP + "&Platform" + Platform;
+                //HttpResponseMessage response = myHttpClient.GetAsync("SunnyTask/Api/Platform/Login"+data).Result;
+
+
+                HttpClient myHttpClient = new HttpClient();
+                myHttpClient.BaseAddress = new Uri(oms);//webapi_url
+                Loginparm submitData = new Loginparm() { AppID = AppID, LoginIP = LoginIP, Password = Password, Platform = Platform, UserName = UserName };
+                string json = JsonHelper.DeepEncodeJson(submitData);
+                var content = new StringContent(json, Encoding.UTF8);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = myHttpClient.PostAsync("SunnyTask/Api/Platform/Login", content).Result;
+                string resultmeta = response.Content.ReadAsStringAsync().Result;
+                LocalFunMsg localFunMsg = JsonHelper.DeserializeJsonToObject<LocalFunMsg>(resultmeta);
+                UserInfoModel userInfoModel = JsonHelper.DeserializeJsonToObject<UserInfoModel>(localFunMsg.Data.ToString());
+                UserInfo userInfo = new UserInfo();
+                userInfo.Id = userInfoModel.UserID.ToString();
+                userInfo.Name = userInfoModel.TrueName;
+                userInfo.Account = userInfoModel.UserName;
+                userInfo.AvatarUrl = userInfoModel.AvatarUrl;
+                userInfo.Type = 12;
+                userInfo.Token = userInfoModel.Token;
+                userInfo.Classes = userInfoModel.Classes;
+                LocalFunMsg re = DemoMsg.ReturnMsg(userInfo);
+                return re;
+            }
+            catch (Exception ex)
+            {
+                LocalFunMsg fs = DemoMsg.ReturnMsg(ex.Message, false, 1);
+                return fs;
+            }
+        }
+		
+		
+		
+		post请求传输对象到webapi接口
+		var handler = new HttpClientHandler();//创建HttpClient（注意传入HttpClientHandler）
+                using (var httpClient = new HttpClient(handler))
+                {
+                    httpClient.BaseAddress = new Uri(oms);
+                    HttpContent httpContent = new StringContent(requestJson);
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    var responseJson = httpClient.PostAsync("/api/TeacherTask/AddTask/", httpContent).Result.Content.ReadAsStringAsync().Result;
+                    Console.WriteLine("布置作业：第{0}条", i);
+                }

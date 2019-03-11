@@ -1,0 +1,84 @@
+var XXX = new Vue({
+  el: '#app',
+  data: {
+    name: null,
+    age: null,
+    sex: null,
+  }
+});
+<input type="text" v-model="sex"> v-model.lazy v-model.trim v-model.number
+<span v-show="sex">你的性别是：{{sex}}</span>
+
+{{sex}}  绑定data里面的属性
+v-model:绑定到哪个元素
+v-show：当值存在的时候才显示（隐藏）
+v-if:当值存在的时候才存在（直接没有）
+v-for:循环数据
+var app = new Vue({
+    el: '#app',
+    data: {
+        foodList: [{
+            name: '葱',
+            price: 15,
+            discount: .8
+        }, {
+            name: '姜',
+            price: 8,
+            discount: .5
+        }, {
+            name: '蒜',
+            price: 5
+        }]
+    }
+})
+ <li v-for="food in foodList">{{food.name}}：￥{{food.discount?food.price*food.discount:food.price}}</li>
+ 
+ v-bind:href="url" =>:href="url"
+ :class="klass"
+ :src="img"
+ :isActive="isActive"
+ 
+ v-on
+ var app = new Vue({
+  el: '#app',
+  methods: {
+    onClick: function () {
+      console.log('clicked');
+    },onEnter: function () {
+      console.log('mouse enter');
+    },onOut: function () {
+      console.log('mouse leave');
+    },onSubmit: function () {
+      console.log('submitted');
+    },onEnter: function () {
+      console.log('entered');
+    },
+  }
+});
+ <button v-on="{mouseenter: onEnter, mouseleave: onOut}" @click="onClick">点我</button>
+ <form @keyup.enter="onEnter" @submit.prevent="onSubmit" @submit="onSubmit($event)">
+ <input type="text"/>
+ <button type="submit">提交</button>
+ </form>	
+ 
+计算属性
+var app = new Vue({
+  el: '#app',
+  data: {
+    math: 90,
+    physics: 80,
+    english: 30,
+  },
+  computed: {
+    sum: function () {
+      return parseFloat(this.math) + parseFloat(this.physics) + parseFloat(this.english);
+    },
+    average: function () {
+      return Math.round(this.sum / 3);
+    }
+  },
+});
+conmputed
+方法
+methods 
+ 

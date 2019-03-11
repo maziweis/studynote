@@ -1,0 +1,8 @@
+alter table clr_pageInit add UnitName nvarchar(100)
+
+alter table 表名 add constraint 主键名 primary key(字段名1,字段名2……)
+
+  alter table Tb_BlankAnswer add Id uniqueidentifier default(newid()) not null
+  alter table Tb_BlankAnswer add constraint PK_Tb_BlankAnswer primary key([Id])
+  
+  RESTORE DATABASE EnterPriseBuilding WITH RECOVERY  停止还原

@@ -1,0 +1,43 @@
+
+前端显示后代数据
+<div style="display:none" id="userInfo"><%=Info %></div>
+ 后台 public string Info;
+ 
+     userInfo = login.GetUserInfo(account);
+     Info = JsonHelper.JsonSerializer(userInfo);   //将对象转换为JSON
+	 
+	 string pswd = DES.Encrypt(Pswd);//密码加密
+	 string Pswd = DES.Decrypt(submitData.UserPassword);//密码解密
+	 
+	  //将用户信息保存到Session  后台调用前台JS方法
+            ClientScript.RegisterStartupScript(ClientScript.GetType(), "script", "SaveUerInfo()",true);
+	
+	
+	http://www.cnblogs.com/asxinyu/p/4519513.html     //开源地址
+	http://www.cnblogs.com/zhuweisky/archive/2012/12/21/2823374.html  //实现语音视频录制
+	https://github.com/naudio/NAudio/wiki     录音
+	post API接口
+	string oms = System.Configuration.ConfigurationManager.AppSettings["Oms"];
+                HttpClient myHttpClient = new HttpClient();
+                myHttpClient.BaseAddress = new Uri(oms);//webapi_url
+                Loginparm submitData = new Loginparm() { LoginIP = LoginIP, Password = Password, Platform = Platform, UserName = UserName };
+                string json = JsonHelper.DeepEncodeJson(submitData);
+                var content = new StringContent(json, Encoding.UTF8);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = myHttpClient.PostAsync("SunnyTask/Api/Platform/Login", content).Result;
+                if (!response.IsSuccessStatusCode)
+                {
+                    LocalFunMsg res = DemoMsg.ReturnMsg("", false, 0, response.RequestMessage.ToString());
+                    return res;
+                }
+                string resultmeta = response.Content.ReadAsStringAsync().Result;
+	get	API接口
+	string oms = System.Configuration.ConfigurationManager.AppSettings["Oms"];
+                HttpClient myHttpClient = new HttpClient();
+                myHttpClient.DefaultRequestHeaders.Add("token", id);
+                myHttpClient.BaseAddress = new Uri(oms);//webapi_url                              
+                HttpResponseMessage response = myHttpClient.GetAsync("SunnyTask/Api/Platform/GetUserInfo").Result;
+                string resultmeta = response.Content.ReadAsStringAsync().Result;
+				
+给字段添加属性 ctrl+R+E	
+自动属性 prop + 两下tab			

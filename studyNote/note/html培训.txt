@@ -1,0 +1,51 @@
+https://pan.baidu.com/s/1o7Aiz2q
+
+
+页面模板
+ <form id="form1">
+        <div id="UserID" style="display:none;"><%=user.UserID %></div>
+<!--#include file="../../CommonPage/Html/PublicHtml_Seach.htm"-->//放在要用的地方
+PublicHtml_Seach.htm  内容：
+**************************************************
+<script src="../../CommonJs/Jquery/JsControl/jquery/jquery-1.11.2.min.js"></script>
+<script src="../../CommonJs/Jquery/JsControl/jquery/jquery.json-2.4.js"></script>
+<script src="../../CommonJs/Jquery/JsControl/jquery/jquery.cookie.js"></script>
+<script src="../../CommonJs/OtherSysDataJs/CommonDB.js"></script>
+<link href="../../AdminSunny/App_Theme/css/common.css" rel="stylesheet" />
+<link href="../../CommonJs/Jquery/FzJsControl/fzcontrols/mac/datagrid.css" rel="stylesheet" />
+    <!--表单样式控件-->
+<!--<script src="../../CommonJs/Jquery/FzJsControl/fzcontrols/jquery.form.controls.js?skin=mac"></script>-->
+<!--<script src="../Script/jsonSelectDB.js" type="text/javascript"></script>-->
+ 
+<div class="condition"> 
+  <input id="selectVal" class="single-text normal" type="hidden" value="0,0,0,0,0,0,0" />
+  <input id="selectText" class="single-text normal" type="hidden"  value="全选,全选,全选,全选,全选,全选,全选" />
+  <table class="selectList">
+    <tr>
+    <!--<td class="filed">来源：</td>
+    <td><dl id="laiyuan">
+     </dl></td>-->
+   </tr>
+   <!--<tr>
+    <td class="filed">学段：</td>
+    <td><dl id="xueduan">
+     </dl></td>
+   </tr>   
+  </table>
+ </div>
+ ************************************************
+ 
+ header，footer代表头尾，方便搜索引擎识别，没有其他作用
+ abbr表示缩写，可以添加title
+ code是行内元素，pre是块级元素，都表示页面代码
+ <input>的类型比较多，每一种侧重于不同的数据类型和结构：
+<input type="text"> 默认值（可以不填type属性），用于输入文字，如用户名，昵称等等。
+<input type="password"> 密码输入，我们平时输密码时的小黑点就是这么来的。
+<input type="radio"> 单选框，在需要用到单选但选项少的情况下使用。如性别（只有两个选项）。
+<input type="checkbox"> 多选框（复选框），在需要用到多选但选项少时使用，多选，但是选项少的情况下使用。如性取向˙Ꙫ˙ 。
+<input type="file"> 选择文件，上传文件必用。
+<input type="reset"> 重置表单。
+<input type="hidden" value="秘密"> 隐形输入框，一般用于在表单提交时回传重要的令牌（就是一串自产自销的无序字符）来验证用户是真的或状态是对的。
+<input type="button" value="点我"> 按钮，不推荐，正常情况下使用<button>即可，因为<button>可以包含子元素，而<input>不行，灵活度的问题。
+
+

@@ -1,0 +1,74 @@
+ /// <summary>
+        /// 解压缩文件
+        /// </summary>
+        /// <param name="ZipFileName">压缩文件</param>
+        /// <param name="TargetFolder">目标文件夹</param>
+        public void UnZipFile(string ZipFileName, string TargetFolder)
+        {
+		//从nuget.org安装SharpCompress
+            if (ZipFileName.ToLower().Contains("rar"))
+            {
+                if (!Directory.Exists(TargetFolder))
+                {
+                    Directory.CreateDirectory(TargetFolder);
+                }
+                using (Stream stream = File.OpenRead(ZipFileName))
+                {
+                    var reader = ReaderFactory.Open(stream);
+                    while (reader.MoveToNextEntry())
+                    {
+                        if (!reader.Entry.IsDirectory)
+                        {
+                            reader.WriteEntryToDirectory(TargetFolder);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                new Helper().InsertErrorMsg(ZipFileName, "解压ppt文件");
+                if (!File.Exists(ZipFileName))
+                    return;
+                FileStream FileS = File.OpenRead(ZipFileName);
+                ZipInputStream zipInStream = new ZipInputStream(FileS);
+
+                string FolderPath = Path.GetDirectoryName(TargetFolder);
+                if (!Directory.Exists(TargetFolder))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
+                ZipEntry tEntry;
+                while ((tEntry = zipInStream.GetNextEntry()) != null)
+                {
+
+                    string fileName = Path.GetFileName(tEntry.Name);
+                    string tempPath = TargetFolder + "\\" + Path.GetDirectoryName(tEntry.Name);
+                    if (!Directory.Exists(tempPath))
+                    {
+                        Directory.CreateDirectory(tempPath);
+                    }
+                    if (fileName != null && fileName.Length > 0)
+                    {
+                        //string strEn=tEntry.Name.Replace("/","");
+
+                        FileStream streamWriter = File.Create(TargetFolder + "\\" + tEntry.Name);
+                        byte[] data = new byte[2048];
+                        System.Int32 size;
+                        try
+                        {
+                            do
+                            {
+                                size = zipInStream.Read(data, 0, data.Length);
+                                streamWriter.Write(data, 0, size);
+                            } while (size > 0);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            throw ex;
+                        }
+                        streamWriter.Close();
+                    }
+                }
+                zipInStream.Close();
+            }
+        }

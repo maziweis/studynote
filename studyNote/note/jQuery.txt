@@ -1,0 +1,741 @@
+////////////////////////////////////////////////
+1.选择器
+$(this)  当前HTML元素
+$("p")   所有<p>元素
+$("p.intro")  所有class="intro"的<p>元素
+$(".intro")  所有class=intro的元素
+$("#intro")  id=intro的元素
+$("ul li:first")  每个ul的第一个li元素
+$("[href$='.jpg']")  所有带有以".jpg"结尾的属性值的href属性
+$("div#intro .head") id="intro"的<div>元素中所有class="head"的元素
+
+////////////////////////////////////////////////
+2.$符号作为jQuery的简介方式
+var jq=jQuery.noConflict, 可以使用自定义jq来替代$符号
+
+$(document).ready(function(){})	将函数绑定到文档的就绪事件（当文档完成加载时）
+$(selector).click(function(){})	触发或将函数绑定到被选元素的点击事件
+$(selector).dblclick(function(){})	触发或将函数绑定到被选元素的双击事件
+$(selector).focus(function(){})	触发或将函数绑定到被选元素的获得焦点事件
+$(selector).mouseover(function(){})	触发或将函数绑定到被选元素的鼠标悬停事件
+
+///////////////////////////////////////////////
+3.显示隐藏
+$(selector).hide(speed,callback);
+$(selector).show(speed,callback);
+可选的 speed 参数规定隐藏/显示的速度，可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是隐藏或显示完成后所执行的函数名称。
+下面的例子演示了带有 speed 参数的 hide() 方法：
+$("button").click(function(){
+  $("p").hide(1000);
+});
+
+jQuery toggle()
+通过 jQuery，您可以使用 toggle() 方法来切换 hide() 和 show() 方法。
+显示被隐藏的元素，并隐藏已显示的元素：
+实例
+$("button").click(function(){
+  $("p").toggle("fast");
+});
+
+/////////////////////////////////////////////////
+4.淡入淡出
+fadeIn淡入，fadeOut淡出，fadeToggle淡入\淡出，fadeTo方法允许渐变为给定的不透明度（值介于 0 与 1 之间）。
+$("button").click(function(){
+    $("#div1").fadeIn();
+    $("#div2").fadeIn("slow");
+    $("#div3").fadeIn(3000);
+  });
+  $("button").click(function(){
+    $("#div1").fadeOut();
+    $("#div2").fadeOut("slow");
+    $("#div3").fadeOut(3000);
+  });
+  $("button").click(function(){
+    $("#div1").fadeToggle();
+    $("#div2").fadeToggle("slow");
+    $("#div3").fadeToggle(3000);
+  });
+  $("button").click(function(){
+    $("#div1").fadeTo("slow",0.15);
+    $("#div2").fadeTo("slow",0.4);
+    $("#div3").fadeTo("slow",0.7);
+  });
+  
+  ////////////////////////////////////////////////
+  5.滑动
+  jQuery slideDown() 方法用于向下滑动元素。
+语法：
+$(selector).slideDown(speed,callback);
+
+jQuery slideUp() 方法用于向上滑动元素。
+语法：
+$(selector).slideUp(speed,callback);
+
+jQuery slideToggle() 方法可以在 slideDown() 与 slideUp() 方法之间进行切换。
+如果元素向下滑动，则 slideToggle() 可向上滑动它们。
+如果元素向上滑动，则 slideToggle() 可向下滑动它们。
+$(selector).slideToggle(speed,callback);
+
+  $(".flip").click(function(){
+    $(".panel").slideToggle("slow");
+  });
+  
+  ///////////////////////////////////////////////
+  6.动画
+  jQuery animate() 方法用于创建自定义动画。
+语法：
+$(selector).animate({params},speed,callback);
+必需的 params 参数定义形成动画的 CSS 属性。
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是动画完成后所执行的函数名称。
+ $("button").click(function(){
+    $("div").animate({left:'250px'},1000);
+  });
+  <p>默认情况下，所有 HTML元素的位置都是静态的，并且无法移动。如需对位置进行操作，记得首先把元素的 CSS position 属性设置为 relative、fixed 或 absolute。</p>
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+
+jQuery animate() - 操作多个属性
+请注意，生成动画的过程中可同时使用多个属性：
+实例
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    opacity:'0.5',
+    height:'150px',
+    width:'150px'
+  });
+}); 
+当使用 animate() 时，必须使用 Camel 标记法书写所有的属性名，比如，必须使用 paddingLeft 而不是 padding-left，使用 marginRight 而不是 margin-right，等等。
+
+也可以定义相对值（该值相对于元素的当前值）。需要在值的前面加上 += 或 -=：
+实例
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    height:'+=150px',
+    width:'+=150px'
+  });
+  
+  隐藏，如果您希望在彼此之后执行不同的动画，那么我们要利用队列功能：
+$("button").click(function(){
+  var div=$("div");
+  div.animate({height:'300px',opacity:'0.4'},"slow");//opacity 元素透明度
+  div.animate({width:'300px',opacity:'0.8'},"slow");
+  div.animate({height:'100px',opacity:'0.4'},"slow");
+  div.animate({width:'100px',opacity:'0.8'},"slow");
+});
+
+/////////////////////////////////////////////
+7.停止
+jQuery stop() 方法用于停止动画或效果，在它们完成之前。
+stop() 方法适用于所有 jQuery 效果函数，包括滑动、淡入淡出和自定义动画。
+语法
+$(selector).stop(stopAll,goToEnd);
+可选的 stopAll 参数规定是否应该清除动画队列。默认是 false，即仅停止活动的动画，允许任何排入队列的动画向后执行。
+可选的 goToEnd 参数规定是否立即完成当前动画。默认是 false。
+因此，默认地，stop() 会清除在被选元素上指定的当前动画。
+下面的例子演示 stop() 方法，不带参数：
+实例
+$("#stop").click(function(){
+  $("#panel").stop(true,true);
+  
+  ///////////////////////////////////////////////////
+  8.回调函数
+  callback
+  $("p").hide(1000,function(){
+alert("The paragraph is now hidden");
+});
+
+//////////////////////////////////////////////////
+8.链接
+通过 jQuery，您可以把动作/方法链接起来。
+Chaining 允许我们在一条语句中允许多个 jQuery 方法（在相同的元素上）。
+下面的例子把 css(), slideUp(), and slideDown()链接在一起。
+"p1"元素首先会变为红色，然后向上滑动，然后向下滑动：
+$("#p1").css("color","red").slideUp(2000).slideDown(2000);
+});
+
+///////////////////////////////////////////////////
+9.获取属性
+获得内容 - text()、html() 以及 val()
+三个简单实用的用于 DOM 操作的 jQuery 方法：
+text() - 设置或返回所选元素的文本内容
+html() - 设置或返回所选元素的内容（包括 HTML 标记）
+val() - 设置或返回表单字段的值
+
+下面的例子演示如何通过 jQuery val() 方法获得输入字段的值：
+实例
+$("#btn1").click(function(){
+  alert("Value: " + $("#test").val());
+});
+
+jQuery attr() 方法用于获取属性值。
+下面的例子演示如何获得链接中 href 属性的值：
+实例
+$("button").click(function(){
+  alert($("#w3s").attr("href"));
+});
+
+//////////////////////////////////////////////////////
+10.设置内容和属性
+设置内容 - text()、html() 以及 val()
+我们将使用前一章中的三个相同的方法来设置内容：
+text() - 设置或返回所选元素的文本内容
+html() - 设置或返回所选元素的内容（包括 HTML 标记）
+val() - 设置或返回表单字段的值
+下面的例子演示如何通过 text()、html() 以及 val() 方法来设置内容：
+实例
+$("#btn1").click(function(){
+  $("#test1").text("Hello world!");
+});
+$("#btn2").click(function(){
+  $("#test2").html("<b>Hello world!</b>");
+});
+$("#btn3").click(function(){
+  $("#test3").val("Dolly Duck");
+});
+
+text()、html() 以及 val() 的回调函数
+上面的三个 jQuery 方法：text()、html() 以及 val()，同样拥有回调函数。回调函数由两个参数：被选元素列表中当前元素的下标，以及原始（旧的）值。然后以函数新值返回您希望使用的字符串。
+下面的例子演示带有回调函数的 text() 和 html()：
+实例
+$("#btn1").click(function(){
+  $("#test1").text(function(i,origText){
+    return "Old text: " + origText + " New text: Hello world!
+    (index: " + i + ")";
+  });
+});
+
+$("#btn2").click(function(){
+  $("#test2").html(function(i,origText){
+    return "Old html: " + origText + " New html: Hello <b>world!</b>
+    (index: " + i + ")";
+  });
+});
+
+attr() 方法也允许您同时设置多个属性。
+下面的例子演示如何同时设置 href 和 title 属性：
+实例
+$("button").click(function(){
+  $("#w3s").attr({
+    "href" : "http://www.w3school.com.cn/jquery",
+    "title" : "W3School jQuery Tutorial"
+  });
+});
+
+attr() 的回调函数
+jQuery 方法 attr()，也提供回调函数。回调函数由两个参数：被选元素列表中当前元素的下标，以及原始（旧的）值。然后以函数新值返回您希望使用的字符串。
+下面的例子演示带有回调函数的 attr() 方法：
+实例
+$("button").click(function(){
+  $("#w3s").attr("href", function(i,origValue){
+    return origValue + "/jquery";
+  });
+});
+
+//////////////////////////////////////////////////
+11.添加
+append() - 在被选元素的结尾插入内容
+prepend() - 在被选元素的开头插入内容
+after() - 在被选元素之后插入内容
+before() - 在被选元素之前插入内容
+
+append() 和 prepend() 方法能够通过参数接收无限数量的新元素。然后我们通过 append() 方法把这些新元素追加到文本中（对 prepend() 同样有效）：
+实例
+function appendText()
+{
+var txt1="<p>Text.</p>";               // 以 HTML 创建新元素
+var txt2=$("<p></p>").text("Text.");   // 以 jQuery 创建新元素
+var txt3=document.createElement("p");  // 以 DOM 创建新元素
+txt3.innerHTML="Text.";
+$("p").append(txt1,txt2,txt3);         // 追加新元素
+}
+
+after() 和 before() 方法能够通过参数接收无限数量的新元素。然后我们通过 after() 方法把这些新元素插到文本中（对 before() 同样有效）：
+实例
+function afterText()
+{
+var txt1="<b>I </b>";                    // 以 HTML 创建新元素
+var txt2=$("<i></i>").text("love ");     // 通过 jQuery 创建新元素
+var txt3=document.createElement("big");  // 通过 DOM 创建新元素
+txt3.innerHTML="jQuery!";
+$("img").after(txt1,txt2,txt3);          // 在 img 之后插入新元素
+}
+
+////////////////////////////////////////////////
+12.删除
+删除元素/内容
+如需删除元素和内容，一般可使用以下两个 jQuery 方法：
+remove() - 删除被选元素（及其子元素）
+empty() - 从被选元素中删除子元素
+
+jQuery remove() 方法也可接受一个参数，允许您对被删元素进行过滤。
+该参数可以是任何 jQuery 选择器的语法。
+下面的例子删除 class="italic" 的所有 <p> 元素：
+实例
+$("p").remove(".italic");
+
+////////////////////////////////////////////////
+13.CSS类
+jQuery 操作 CSS
+jQuery 拥有若干进行 CSS 操作的方法。我们将学习下面这些：
+addClass() - 向被选元素添加一个或多个类
+removeClass() - 从被选元素删除一个或多个类
+toggleClass() - 对被选元素进行添加/删除类的切换操作
+css() - 设置或返回样式属性
+
+$("h1,h2,p").addClass("blue");
+  $("div").addClass("important");
+  
+  也可以在 addClass() 方法中规定多个类
+  $("#div1").addClass("important blue");
+  $("h1,h2,p").removeClass("blue");
+  
+  jQuery toggleClass() 方法
+下面的例子将展示如何使用 jQuery toggleClass() 方法。该方法对被选元素进行添加/删除类的切换操作：
+实例
+$("button").click(function(){
+  $("h1,h2,p").toggleClass("blue");
+  
+  ///////////////////////////////////////////////
+  14.css()
+  jQuery css() 方法
+css() 方法设置或返回被选元素的一个或多个样式属性。
+
+返回 CSS 属性
+如需返回指定的 CSS 属性的值，请使用如下语法：
+css("propertyname");
+下面的例子将返回首个匹配元素的 background-color 值：
+实例
+$("p").css("background-color");
+
+设置 CSS 属性
+如需设置指定的 CSS 属性，请使用如下语法：
+css("propertyname","value");
+下面的例子将为所有匹配元素设置 background-color 值：
+实例
+$("p").css("background-color","yellow");
+});
+
+下面的例子将为所有匹配元素设置 background-color 和 font-size：
+实例
+$("p").css({"background-color":"yellow","font-size":"200%"});
+
+///////////////////////////////////////////////////////
+15.尺寸
+jQuery width() 和 height() 方法
+width() 方法设置或返回元素的宽度（不包括内边距、边框或外边距）。
+height() 方法设置或返回元素的高度（不包括内边距、边框或外边距）。
+下面的例子返回指定的 <div> 元素的宽度和高度：
+实例
+$("button").click(function(){
+  var txt="";
+  txt+="Width: " + $("#div1").width() + "</br>";
+  txt+="Height: " + $("#div1").height();
+  $("#div1").html(txt);
+});
+
+jQuery innerWidth() 和 innerHeight() 方法
+innerWidth() 方法返回元素的宽度（包括内边距）。
+innerHeight() 方法返回元素的高度（包括内边距）。
+下面的例子返回指定的 <div> 元素的 inner-width/height：
+实例
+$("button").click(function(){
+  var txt="";
+  txt+="Inner width: " + $("#div1").innerWidth() + "</br>";
+  txt+="Inner height: " + $("#div1").innerHeight();
+  $("#div1").html(txt);
+});
+
+jQuery outerWidth() 和 outerHeight() 方法
+outerWidth() 方法返回元素的宽度（包括内边距和边框）。
+outerHeight() 方法返回元素的高度（包括内边距和边框）。
+下面的例子返回指定的 <div> 元素的 outer-width/height：
+实例
+$("button").click(function(){
+  var txt="";
+  txt+="Outer width: " + $("#div1").outerWidth() + "</br>";
+  txt+="Outer height: " + $("#div1").outerHeight();
+  $("#div1").html(txt);
+});
+
+outerWidth(true) 方法返回元素的宽度（包括内边距、边框和外边距）。
+outerHeight(true) 方法返回元素的高度（包括内边距、边框和外边距）。
+实例
+$("button").click(function(){
+  var txt="";
+  txt+="Outer width (+margin): " + $("#div1").outerWidth(true) + "</br>";
+  txt+="Outer height (+margin): " + $("#div1").outerHeight(true);
+  $("#div1").html(txt);
+});
+
+//////////////////////////////////////////////
+16.祖先
+向上遍历 DOM 树
+这些 jQuery 方法很有用，它们用于向上遍历 DOM 树：
+parent()
+parents()
+parentsUntil()
+
+jQuery parent() 方法
+parent() 方法返回被选元素的直接父元素。
+该方法只会向上一级对 DOM 树进行遍历。
+下面的例子返回每个 <span> 元素的的直接父元素：
+实例
+$(document).ready(function(){
+  $("span").parent();
+});
+
+jQuery parents() 方法
+parents() 方法返回被选元素的所有祖先元素，它一路向上直到文档的根元素 (<html>)。
+下面的例子返回所有 <span> 元素的所有祖先：
+实例
+$(document).ready(function(){
+  $("span").parents();
+});
+也可以使用可选参数来过滤对祖先元素的搜索。
+下面的例子返回所有 <span> 元素的所有祖先，并且它是 <ul> 元素：
+实例
+$(document).ready(function(){
+  $("span").parents("ul");
+});
+
+jQuery parentsUntil() 方法
+parentsUntil() 方法返回介于两个给定元素之间的所有祖先元素。
+下面的例子返回介于 <span> 与 <div> 元素之间的所有祖先元素（不包含span和div）：
+实例
+$(document).ready(function(){
+  $("span").parentsUntil("div");
+});
+
+///////////////////////////////////////////
+17.后代
+向下遍历 DOM 树
+下面是两个用于向下遍历 DOM 树的 jQuery 方法：
+children()
+find()
+
+jQuery children() 方法
+children() 方法返回被选元素的所有直接子元素。
+该方法只会向下一级对 DOM 树进行遍历。
+下面的例子返回每个 <div> 元素的所有直接子元素：
+实例
+$(document).ready(function(){
+  $("div").children();
+});
+
+也可以使用可选参数来过滤对子元素的搜索。
+下面的例子返回类名为 "1" 的所有 <p> 元素，并且它们是 <div> 的直接子元素：
+实例
+$(document).ready(function(){
+  $("div").children("p.1");
+});
+
+jQuery find() 方法
+find() 方法返回被选元素的后代元素，一路向下直到最后一个后代。
+下面的例子返回属于 <div> 后代的所有 <span> 元素：
+实例
+$(document).ready(function(){
+  $("div").find("span");
+});
+
+下面的例子返回 <div> 的所有后代：
+实例
+$(document).ready(function(){
+  $("div").find("*");
+});
+
+////////////////////////////////////////////////////////
+18.同胞
+有许多有用的方法让我们在 DOM 树进行水平遍历：
+siblings()
+next()
+nextAll()
+nextUntil()
+prev()
+prevAll()
+prevUntil()
+
+jQuery siblings() 方法
+siblings() 方法返回被选元素的所有同胞元素。
+下面的例子返回 <h2> 的所有同胞元素：
+实例
+$(document).ready(function(){
+  $("h2").siblings();
+});
+您也可以使用可选参数来过滤对同胞元素的搜索。
+下面的例子返回属于 <h2> 的同胞元素的所有 <p> 元素：
+实例
+$(document).ready(function(){
+  $("h2").siblings("p");
+});
+
+jQuery next() 方法
+next() 方法返回被选元素的下一个同胞元素。
+该方法只返回一个元素。
+下面的例子返回 <h2> 的下一个同胞元素：
+实例
+$(document).ready(function(){
+  $("h2").next();
+});
+
+jQuery nextAll() 方法
+nextAll() 方法返回被选元素的所有跟随的同胞元素。
+下面的例子返回 <h2> 的所有跟随的同胞元素：
+实例
+$(document).ready(function(){
+  $("h2").nextAll();
+});
+
+jQuery nextUntil() 方法
+nextUntil() 方法返回介于两个给定参数之间的所有跟随的同胞元素。
+下面的例子返回介于 <h2> 与 <h6> 元素之间的所有同胞元素(不包含h2和h6)：
+实例
+$(document).ready(function(){
+  $("h2").nextUntil("h6");
+});
+
+jQuery prev(), prevAll() & prevUntil() 方法
+prev(), prevAll() 以及 prevUntil() 方法的工作方式与上面的方法类似，只不过方向相反而已：它们返回的是前面的同胞元素（在 DOM 树中沿着同胞元素向后遍历，而不是向前）。
+
+//////////////////////////////////////////////
+19.过滤
+缩写搜索元素的范围
+三个最基本的过滤方法是：first(), last() 和 eq()，它们允许您基于其在一组元素中的位置来选择一个特定的元素。
+其他过滤方法，比如 filter() 和 not() 允许您选取匹配或不匹配某项指定标准的元素。
+
+jQuery first() 方法
+first() 方法返回被选元素的首个元素。
+下面的例子选取首个 <div> 元素内部的第一个 <p> 元素：
+实例
+$(document).ready(function(){
+  $("div p").first();
+});
+
+jQuery last() 方法
+last() 方法返回被选元素的最后一个元素。
+下面的例子选择最后一个 <div> 元素中的最后一个 <p> 元素：
+实例
+$(document).ready(function(){
+  $("div p").last();
+});
+
+jQuery eq() 方法
+eq() 方法返回被选元素中带有指定索引号的元素。
+索引号从 0 开始，因此首个元素的索引号是 0 而不是 1。下面的例子选取第二个 <p> 元素（索引号 1）：
+实例
+$(document).ready(function(){
+  $("p").eq(1);
+});
+
+jQuery filter() 方法
+filter() 方法允许您规定一个标准。不匹配这个标准的元素会被从集合中删除，匹配的元素会被返回。
+下面的例子返回带有类名 "intro" 的所有 <p> 元素：
+实例
+$(document).ready(function(){
+  $("p").filter(".intro");
+});
+
+jQuery not() 方法
+not() 方法返回不匹配标准的所有元素。
+提示：not() 方法与 filter() 相反。
+下面的例子返回不带有类名 "intro" 的所有 <p> 元素：
+实例
+$(document).ready(function(){
+  $("p").not(".intro");
+});
+
+//////////////////////////////////////////////
+20.AJAX
+jQuery load() 方法
+jQuery load() 方法是简单但强大的 AJAX 方法。
+load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
+语法：
+$(selector).load(URL,data,callback);
+必需的 URL 参数规定您希望加载的 URL。
+可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+这是示例文件（"demo_test.txt"）的内容：
+<h2>jQuery and AJAX is FUN!!!</h2>
+<p id="p1">This is some text in a paragraph.</p>
+下面的例子会把文件 "demo_test.txt" 的内容加载到指定的 <div> 元素中：
+示例
+$("#div1").load("demo_test.txt");
+
+$("button").click(function(){
+  $("#div1").load("demo_test.txt",function(responseTxt,statusTxt,xhr){
+    if(statusTxt=="success")
+      alert("外部内容加载成功！");
+    if(statusTxt=="error")
+      alert("Error: "+xhr.status+": "+xhr.statusText);
+  });
+});
+
+//////////////////////////////////////////////////////
+21.jQuery - AJAX get() 和 post() 方法
+jQuery get() 和 post() 方法用于通过 HTTP GET 或 POST 请求从服务器请求数据。
+HTTP 请求：GET vs. POST
+两种在客户端和服务器端进行请求-响应的常用方法是：GET 和 POST。
+GET - 从指定的资源请求数据
+POST - 向指定的资源提交要处理的数据
+GET 基本上用于从服务器获得（取回）数据。注释：GET 方法可能返回缓存数据。
+POST 也可用于从服务器获取数据。不过，POST 方法不会缓存数据，并且常用于连同请求一起发送数据。
+
+jQuery $.get() 方法
+$.get() 方法通过 HTTP GET 请求从服务器上请求数据。
+语法：
+$.get(URL,callback);
+必需的 URL 参数规定您希望请求的 URL。
+可选的 callback 参数是请求成功后所执行的函数名。
+下面的例子使用 $.get() 方法从服务器上的一个文件中取回数据：
+实例
+$("button").click(function(){
+  $.get("demo_test.asp",function(data,status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });
+});
+
+jQuery $.post() 方法
+$.post() 方法通过 HTTP POST 请求从服务器上请求数据。
+语法：
+$.post(URL,data,callback);
+必需的 URL 参数规定您希望请求的 URL。
+可选的 data 参数规定连同请求发送的数据。
+可选的 callback 参数是请求成功后所执行的函数名。
+下面的例子使用 $.post() 连同请求一起发送数据：
+实例
+$("button").click(function(){
+  $.post("demo_test_post.asp",
+  {
+    name:"Donald Duck",
+    city:"Duckburg"
+  },
+  function(data,status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });
+});
+
+/////////////////////////////////////////////////////
+22.noConflict()
+jQuery noConflict() 方法
+noConflict() 方法会释放会 $ 标识符的控制，这样其他脚本就可以使用它了。
+实例
+当然，您仍然可以通过全名替代简写的方式来使用 jQuery：
+$.noConflict();
+jQuery(document).ready(function(){
+  jQuery("button").click(function(){
+    jQuery("p").text("jQuery 仍在运行！");
+  });
+});
+
+实例
+您也可以创建自己的简写。noConflict() 可返回对 jQuery 的引用，您可以把它存入变量，以供稍后使用。请看这个例子：
+var jq = $.noConflict();
+jq(document).ready(function(){
+  jq("button").click(function(){
+    jq("p").text("jQuery 仍在运行！");
+  });
+});
+
+实例
+如果你的 jQuery 代码块使用 $ 简写，并且您不愿意改变这个快捷方式，那么您可以把 $ 符号作为变量传递给 ready 方法。这样就可以在函数内使用 $ 符号了 - 而在函数外，依旧不得不使用 "jQuery"：
+$.noConflict();
+jQuery(document).ready(function($){
+  $("button").click(function(){
+    $("p").text("jQuery 仍在运行！");
+  });
+});
+
+///////////////////////////////////////////////
+23.实例
+向 HTML 元素追加内容。 
+$("#btn1").click(function(){
+    $("p").append(" <b>Appended text</b>.");
+  });
+
+  $("#btn2").click(function(){
+    $("ol").append("<li>Appended item</li>");
+  });
+在 HTML 元素之后追加内容。
+$("#btn1").click(function(){
+    $("img").before("<b>Before</b>");
+  });
+
+  $("#btn2").click(function(){
+    $("img").after("<i>After</i>");
+  });
+改变 HTML 元素的 CSS 属性
+ $("p").css("background-color","red");
+改变多个 CSS 属性。
+$("button").click(function(){
+    $("p").css({"background-color":"red","font-size":"200%"});
+  });
+  获得元素的 CSS 属性。
+  $("p").css("background-color")
+使用 $(selector).load(url) 来改变 HTML 内容
+  $('#myDiv').load('/jquery/test1.txt');
+使用 $.ajax(options) 来改变 HTML 内容。
+$("#b01").click(function(){
+  htmlobj=$.ajax({url:"/jquery/test1.txt",async:false});
+  $("#myDiv").html(htmlobj.responseText);
+  });
+
+ //////////////////////////////////////////
+24选择器
+$("*") 所有元素
+$("#id") id="id"的元素
+$(".class") 所有class="class"的元素
+$("p")  所有p元素
+$(".class.class1") 所有class="class"并且class="class1"的元素
+$("p:first") 第一个<p>元素
+$("p:last") 最后一个<p>元素
+$("tr:even") 所有偶数<tr>元素
+$("tr:odd") 所有奇数<tr>元素
+$("ul li:eq(3)") 列表中的第四个元素(index从0开始)
+$("ul li:gt(3)") 列出index大于3的元素
+$("ul li:lg(3)") 列出index小于3的元素
+$("input:not(:empty)") 所有不为空的input元素
+$(":header") 所有标题元素<h1> - <h6>
+$(":animated") 所有动画元素
+$("p:contains(is)") 所有包含is的<p>元素
+$(":empty") 所有不包含子元素或文本的元素
+$("p:hidden") 所有隐藏的<p>元素
+$("table:visible") 所有可见的表格
+$("th,td,intro") 所有带有匹配选择的元素
+$("[href]") 所有带有href属性的元素
+$("[href='#']") 所有href属性的值等于"#"的值
+$("[href!='#']") 所有href属性的值不等于"#"的值
+$("[href$='jpg']") 所有href属性的值包含以".jpg"结尾的元素
+$(":input") 所有<input>的元素
+$(":text") 所有type="text"的<input>的元素
+$(":text")	所有 type="text" 的 <input> 元素
+$(":password")	所有 type="password" 的 <input> 元素
+$(":radio")	所有 type="radio" 的 <input> 元素:checkbox	
+$(":checkbox")	所有 type="checkbox" 的 <input> 元素
+$(":submit")	所有 type="submit" 的 <input> 元素
+$(":reset")	所有 type="reset" 的 <input> 元素
+$(":button")	所有 type="button" 的 <input> 元素
+$(":image")	所有 type="image" 的 <input> 元素
+$(":file")	所有 type="file" 的 <input> 元素
+$(":enabled")	所有激活的 input 元素
+$(":disabled")	所有禁用的 input 元素
+$(":selected")	所有被选取的 input 元素
+$(":checked")	所有被选中的 input 元素
+
+
+ //////////////////////////////////////////
+25事件
+ $("input").keydown(function(event){ 
+    $("div").html("Key: " + event.which);
+  });
+  tab键：9  enter键：18
+  
+bind() 方法为被选元素添加一个或多个事件处理程序，并规定事件发生时运行的函数。
+  $(selector).bind({event:function, event:function, ...})
+$("button").bind({
+    click:function(){$("p").slideToggle();},
+    mouseover:function(){$("body").css("background-color","red");},  
+    mouseout:function(){$("body").css("background-color","#FFFFFF");}  
+  });
+

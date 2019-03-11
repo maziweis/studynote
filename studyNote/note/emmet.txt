@@ -1,0 +1,36 @@
+
+快捷键安装：emmet扩展
+head属性：! 回车
+div快捷创建：div 回车
+div快速创建：div*3 回车
+div指定文字：div{div} 回车
+div指定文字+序号：div{div$} 回车
+div嵌入元素：(div{div$}>p)3 回车, (div{div$}>p{p$}3)*3 回车
+div指定类名：.a 回车
+span指定类名：span.a 回车，p.a 回车， div.a 回车
+打字特效：power mode扩展
+
+
+alt+J 选中相同单词光标
+ctrl+alt+L	格式化代码
+ctrl+shift+/  注释代码
+ctrl+shift+ U 大小写切换
+ctrl+alt+ enter 在这行上面开一行
+shift + enter 当光标在行中间的时候，另开一行
+ctrl + backspace 一次删除一个词
+shift+alt+up/down  上下移动一行
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

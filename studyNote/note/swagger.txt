@@ -1,0 +1,26 @@
+
+//webapi使用swagger  nuget安装 Swashbuckle
+配置文件
+public class SwaggerConfig
+{
+    public static void Register()
+ 　　　　{
+            var thisAssembly = typeof(SwaggerConfig).Assembly;
+
+            GlobalConfiguration.Configuration 
+                .EnableSwagger(c =>
+                    {
+                        c.SingleApiVersion("v1", "SwaggerApiDemo");
+						//新加	必须
+                        c.IncludeXmlComments(GetXmlCommentsPath());
+                    })
+                .EnableSwaggerUi(c =>
+                    {                    
+            });
+        }  
+        //新加	必须	
+        private static string GetXmlCommentsPath()
+        {
+            return string.Format("{0}/bin/SwaggerApiDemo.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+        }
+}

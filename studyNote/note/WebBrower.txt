@@ -1,0 +1,5 @@
+http://wanglimin2004.blog.163.com/blog/static/11548849820131020104041459/
+
+问题解决
+No Entity Framework provider found for the ADO.NET provider with invariant name 'System.Data.SqlClient'
+打开vs项目nuget 安装Entity Framework在web项目和数据库查询项目（DAL）

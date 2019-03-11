@@ -1,0 +1,96 @@
+var 作用域存在两种
+1、全局
+2、function 方法里面
+
+let 作用域只要有{}就是一个域
+
+解构赋值
+var obj={
+   arr:[
+       "yo.",
+       {
+           a:1,
+       }
+   ]
+}
+let {arr:[greet,{a,b=10}]}=obj;
+console.log("greet",greet);
+console.log("a",a)
+console.log("b",b)
+
+let {floor,pow}=Math;
+let obj=Math.random();
+let a=1.9;
+console.log("floor{a}",floor(a));
+console.log("obj",obj);
+console.log("pow{2,3}",pow(2,3));
+
+
+let [z,x,c]="yo.";
+let {length}="yo.";
+console.log(length)
+console.log(z,x,c)
+
+var obj=[1,2];
+function test([a,b])
+{
+console.log(a+b);
+}
+
+var obj={b:2};
+function f({a=10,b}) {
+    console.log(a)
+    console.log(b)
+}
+f(obj);
+
+字符串
+indexof(X的下标) 
+includes(是否包含X)
+startwith(是否以X开始) 
+endwith(是否以X结尾) 
+repeat(重复写当前的字符串)
+
+
+
+模板字符串 `.....`
+let title="野外基地 卫衣"
+let tpl=`
+<div>
+<span>${title}</span>
+</div>
+`;
+console.log(tpl);
+
+Symbol() 值唯一，用于给变量赋值，避免对象属性值被覆盖，即使下游使用相同属性赋值，也是在对象中创建两个属性
+
+
+Proxy()
+let user =new Proxy({},{
+    get :function (obj,prop) {
+        return obj.fname+' '+obj.lname;
+    },
+    set:function (obj,prop) {
+        switch (prop) {
+            case 'fname':
+                obj.fname='Bobby';
+                break;
+            case 'lname':
+                obj.lname='Tager';
+                break;
+            default:
+                break;
+        }
+    }
+})
+user.fname='Bob';
+user.lname='Wood';
+console.log("user",user.hh);
+
+Set(arr)
+使arr里面值唯一，去掉重复值
+let s=new Set([1,3,4,4]);
+s.add(2);
+s.delete(2);
+s.has(2);
+s.clear();
