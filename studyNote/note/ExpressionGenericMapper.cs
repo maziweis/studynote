@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ExpressionDemo.MappingExtend
 {
     /// <summary>
-    /// 生成表达式目录树  泛型缓存
+    /// 生成表达式目录树  泛型缓存 类型转换
     /// </summary>
     /// <typeparam name="TIn"></typeparam>
     /// <typeparam name="TOut"></typeparam>
